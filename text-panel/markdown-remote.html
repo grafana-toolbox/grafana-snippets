@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+About
+=====
+Rendering Markdown fetched from a remote location, with interval-based refresh and cache busting.
+
+Resources
+=========
+- https://github.com/panodata/grafana-snippets
+- https://github.com/markedjs/marked
+- https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+
+Use-case
+========
+- https://community.hiveeyes.org/t/markdown-inhalte-im-grafana-einbetten/4941
+- https://community.hiveeyes.org/t/dwd-prognose-bienenflug/787
+- https://apicast.hiveeyes.org/
+- https://github.com/hiveeyes/apicast
+- https://apicast.hiveeyes.org/beeflight/forecast/germany/brandenburg/potsdam?format=table-markdown
+-->
+<html>
+<head>
+  <title>Beeflight forecast</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script type="text/javascript">
+      /**
+       * Render Markdown into HTML tag element, after fetching it from a remote location.
+       */
+      async function renderMarkdown() {
+
+          // Acquire element from DOM.
+          const element = document.getElementById("markdown")
+
+          // Define default settings.
+          //if (!element["data-src"]) element["data-src"] = element.src
+          const refresh_delay = Number.parseInt(element.attributes["data-refresh"].value) || 60
+
+          // Compute URL, with cache busting query parameter.
+          let cachebuster = (Math.random() * 10000000).toFixed()
+          const markdown_url = element.attributes["data-src"].value + "&nocache=" + cachebuster.toString()
+
+          // Load Markdown.
+          const response = await fetch(markdown_url)
+          const markdown = await response.text()
+
+          // Render Markdown.
+          element.innerHTML = marked.parse(markdown, {mangle: false, headerIds: false})
+
+          // Schedule next refresh cycle.
+          console.log(`Scheduling refresh in ${refresh_delay} seconds`)
+          setTimeout(renderMarkdown, refresh_delay * 1000)
+      }
+
+      // TODO: Will not work, because the page is already loaded - we are only inside a panel.
+      /*
+      window.addEventListener("DOMContentLoaded", () => {
+        renderMarkdown()
+      })
+      */
+
+      // Start a bit later, after the page's body has been loaded into the DOM.
+      setTimeout(renderMarkdown, 500)
+
+  </script>
+
+</head>
+<body>
+  <div id="markdown"
+       data-src="https://apicast.hiveeyes.org/beeflight/forecast/germany/brandenburg/potsdam?format=table-markdown"
+       data-refresh="3600"/>
+</body>
+</html>
