@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--
+About
+=====
+Embedding remote images with Grafana's Text Panel, with interval-based refresh and cache busting.
+
+Resources
+=========
+- https://github.com/panodata/grafana-snippets
+- https://community.hiveeyes.org/t/panel-fur-webcam-bild-das-regelmassig-aktualisiert-wird/4921
+- https://community.grafana.com/t/refreshing-gif-image/49507/11
+-->
+<html>
+<head>
+  <title>mois' Beecam</title>
+
+  <script type="text/javascript">
+      /**
+       * Refresh image in HTML body, with cache busting.
+       */
+      function updateImage() {
+
+          // Acquire image object from DOM.
+          const image = document.getElementById("image")
+
+          // Define default settings.
+          if (!image["data-src"]) image["data-src"] = image.src
+          const refresh_delay = Number.parseInt(image.attributes["data-refresh"].value) || 60
+
+          // Compute URL, with cache busting query parameter.
+          let cachebuster = (Math.random() * 10000000).toFixed()
+          const image_url = image["data-src"] + "?nocache=" + cachebuster.toString()
+
+          // Load image.
+          console.log(`Loading image at ${image_url}`)
+          image.src = image_url
+
+          // Schedule next refresh cycle.
+          console.log(`Scheduling refresh in ${refresh_delay} seconds`)
+          setTimeout(updateImage, refresh_delay * 1000);
+      }
+
+      // Start a bit later, after the page's body has been loaded into the DOM.
+      setTimeout(updateImage, 1000);
+  </script>
+
+</head>
+<body>
+  <img id="image" src="https://www.euse.de/honig/beescale/latest.jpg" data-refresh="10"/>
+</body>
+</html>
