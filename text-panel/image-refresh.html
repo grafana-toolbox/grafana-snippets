@@ -14,38 +14,66 @@ Resources
 <head>
   <title>mois' Beecam</title>
 
+  <!--
+  Refresh image elements in HTML body, with cache busting.
+  The refresh interval unit is "seconds".
+  -->
+
   <script type="text/javascript">
+
       /**
-       * Refresh image in HTML body, with cache busting.
+       * Apply image refreshing to all `img` elements which have a `data-refresh` attribute.
        */
-      function updateImage() {
+      function registerRefreshingImages() {
+          const images = document.getElementsByTagName("img")
+          for (const image of images) {
+              if ("data-refresh" in image.attributes) {
+                  console.log(`Registering image refresh for: ${image.src}`)
+                  refreshImage(image)
+              }
+          }
+      }
 
-          // Acquire image object from DOM.
-          const image = document.getElementById("image")
+      /**
+       * Continuously refresh image element using an interval obtained
+       * from its `data-refresh` attribute. The unit is "seconds".
+       */
+      function refreshImage(image) {
 
-          // Define default settings.
+          // Get settings from DOM element.
+          const refresh_delay = Number.parseInt(image.attributes["data-refresh"].value)
+
+          // Remember original image URL.
           if (!image["data-src"]) image["data-src"] = image.src
-          const refresh_delay = Number.parseInt(image.attributes["data-refresh"].value) || 60
 
           // Compute URL, with cache busting query parameter.
           let cachebuster = (Math.random() * 10000000).toFixed()
           const image_url = image["data-src"] + "?nocache=" + cachebuster.toString()
 
           // Load image.
-          console.log(`Loading image at ${image_url}`)
+          console.log(`Refreshing image at ${image_url}`)
           image.src = image_url
 
           // Schedule next refresh cycle.
           console.log(`Scheduling refresh in ${refresh_delay} seconds`)
-          setTimeout(updateImage, refresh_delay * 1000);
+          setTimeout(refreshImage, refresh_delay * 1000, image)
       }
 
-      // Start a bit later, after the page's body has been loaded into the DOM.
-      setTimeout(updateImage, 1000);
+      /**
+       * Start a bit later, after the component's body has been loaded into the DOM.
+       *
+       * Using the `DOMContentLoaded` event does not work, because the page has
+       * been loaded already, while this component is only loaded inside a panel.
+       *
+       * TODO: Use corresponding Grafana events?
+       */
+      setTimeout(registerRefreshingImages, 1000)
+
   </script>
 
 </head>
 <body>
-  <img id="image" src="https://www.euse.de/honig/beescale/latest.jpg" data-refresh="10"/>
+  <img width="640" src="https://www.euse.de/honig/beescale/latest_b-cam1.jpg" data-refresh="10"/>
+  <img width="640" src="https://www.euse.de/honig/beescale/latest_b-cam2.jpg" data-refresh="15"/>
 </body>
 </html>
