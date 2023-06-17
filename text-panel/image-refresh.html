@@ -21,13 +21,19 @@ Resources
 
   <script type="text/javascript">
 
+      // Track all image elements which should be refreshed, in order to prevent
+      // registering refresh handlers twice, for example when running multiple
+      // instances of this component.
+      window.refreshing_images = []
+
       /**
        * Apply image refreshing to all `img` elements which have a `data-refresh` attribute.
        */
       function registerRefreshingImages() {
           const images = document.getElementsByTagName("img")
           for (const image of images) {
-              if ("data-refresh" in image.attributes) {
+              if (!window.refreshing_images.includes(image) && "data-refresh" in image.attributes) {
+                  window.refreshing_images.push(image)
                   console.log(`Registering image refresh for: ${image.src}`)
                   refreshImage(image)
               }
