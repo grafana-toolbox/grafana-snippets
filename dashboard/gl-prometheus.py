@@ -8,6 +8,10 @@ from grafanalib.prometheus import PromGraph
 dashboard = Dashboard(
     title="grafana-snippets » grafanalib » Graph and PromGraph",
     description="Includes a Graph and a PromGraph panel",
+    tags=[
+        "example",
+        "grafana-toolbox",
+    ],
     rows=[
         Row(
             panels=[

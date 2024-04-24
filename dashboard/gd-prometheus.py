@@ -8,7 +8,6 @@ dashboard = Dashboard(
     tags=[
         "example",
         "grafana-toolbox",
-        "play.grafana.org",
     ],
     panels=[
         TimeSeries(

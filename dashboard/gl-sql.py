@@ -19,6 +19,10 @@ from grafanalib.core import (
 dashboard = Dashboard(
     title="grafana-snippets » grafanalib » Graph and SqlTarget",
     description="Includes a Graph panel using a datasource talking SQL",
+    tags=[
+        "example",
+        "grafana-toolbox",
+    ],
     panels=[
         RowPanel(title="New row", gridPos=GridPos(h=1, w=24, x=0, y=8)),
         Graph(

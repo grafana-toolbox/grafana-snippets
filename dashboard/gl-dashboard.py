@@ -9,7 +9,10 @@ from grafanalib.core import OPS_FORMAT, Dashboard, GaugePanel, GridPos, Target, 
 dashboard = Dashboard(
     title="grafana-snippets » grafanalib » Random Walk and Default Prometheus",
     description="Includes different panels, using the Random Walk and default Prometheus datasources",
-    tags=["example"],
+    tags=[
+        "example",
+        "grafana-toolbox",
+    ],
     timezone="browser",
     panels=[
         TimeSeries(
