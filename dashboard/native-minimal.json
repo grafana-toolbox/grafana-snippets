@@ -1,0 +1,28 @@
+{
+  "annotations": {},
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [],
+  "refresh": false,
+  "schemaVersion": 39,
+  "tags": [
+    "example",
+    "grafana-toolbox"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timeRangeUpdatedDuringEditOrView": false,
+  "timezone": "browser",
+  "title": "grafana-snippets » Synthetic minimal dashboard",
+  "description": "A dashboard in Grafana JSON format, without any panels and others",
+  "uid": "000000000",
+  "version": 0,
+  "weekStart": ""
+}
