@@ -9,14 +9,17 @@ program, including its feature for supporting "builders".
 
 - Dashboards in native Grafana JSON format, from https://play.grafana.org/.
 
-- Dashboards using both [grafanalib] or [grafana-dashboard], for expressing
-  Grafana Dashboards as code, in Python.
+- Dashboards using [Grafonnet], [grafanalib], or [grafana-dashboard], for expressing
+  Grafana Dashboards as code, using [Jsonnet], and Python.
 
 - To get inspired by reading more examples, please also visit
-  [grafana-dashboard examples] and [grafanalib examples].
+  [grafonnet examples], [grafana-dashboard examples], and [grafanalib examples].
 
 
 [grafana-dashboard]: https://github.com/fzyzcjy/grafana_dashboard_python
 [grafana-dashboard examples]: https://github.com/fzyzcjy/grafana_dashboard_python/tree/master/examples
 [grafanalib]: https://github.com/weaveworks/grafanalib
 [grafanalib examples]: https://github.com/weaveworks/grafanalib/tree/main/grafanalib/tests/examples
+[Grafonnet]: https://github.com/grafana/grafonnet
+[grafonnet examples]: https://github.com/grafana/grafonnet/tree/main/examples
+[Jsonnet]: https://github.com/google/go-jsonnet
